@@ -1,5 +1,5 @@
 def weatherapi():
     #write logic for getting the data from the api and returning the values inside a dictionary
     resultdict={}
-    resultdict["data"]="hello djnago minnesota"
+    resultdict["data"]="hello djnago lisbon"
     return resultdict
