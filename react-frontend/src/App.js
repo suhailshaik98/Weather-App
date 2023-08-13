@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Button from 'react-bootstrap/Button'
+import 'bootstrap/dist/css/bootstrap.min.css'
+
+// ---------------------------RESOURCES TO REFER---------------------------------------------------
+// Refer to this link https://react-bootstrap.netlify.app/docs/components/accordion
+// Watch youtube video https://www.youtube.com/watch?v=8pKjULHzs0s
+// -------------------------------------------------------------------------------------
 
 function App() {
   const [apiData, setApiData] = useState(null);
@@ -24,6 +31,9 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
+          {/* how to add a bootstrap button example */}
+        <Button>TestButton</Button> 
+        {/* ------------------------------- */}
           Edit <code>src/App.js</code> and save to reload.
         </p>
         <a
