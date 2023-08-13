@@ -1,1 +1,4 @@
-polls/_pycache_./*
+*.pyc
+/polls/__pycache__
+/weatherapp/__pycache__
+/Weather-App/react-frontend/node_modules
