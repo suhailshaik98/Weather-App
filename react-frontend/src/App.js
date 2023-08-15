@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Button from 'react-bootstrap/Button'
+import {Button,Card} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 // ---------------------------RESOURCES TO REFER---------------------------------------------------
@@ -11,47 +11,38 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 function App() {
   const [apiData, setApiData] = useState(null);
+  const [weathertimetable, setWeathertimetable] = useState(null);
 
   useEffect(() => {
     async function fetchApiData() {
       try {
         const response = await fetch('http://localhost:8000/');
-        console.log(response)
         const data = await response.text();
-        const list=[data]
-        const dataObject = JSON.parse(list);
-        // console.log(dataObject)
-        const presenttemp=dataObject.slice(-1)
-        const formattedTime = formatDateToISO8601();
-        const timetable=dataObject.slice(0,-1)
-        let presenttime
-        for (let i = 0; i < timetable.length; i++) {
-          const datatimestamp=timetable[i]['timestamp']
-            if (datatimestamp.slice(0,13)===formattedTime.slice(0,13)){
-              console.log("matches")
-            presenttime=i
+        const dataObject = JSON.parse(data);
 
-            }
+        const formattedTime = formatDateToISO8601(); // Define this function or replace with appropriate time formatting
 
+        let presenttime = -1;
+
+        for (let i = 0; i < dataObject.length; i++) {
+          const datatimestamp = dataObject[i]['timestamp'];
+          if (datatimestamp.slice(0, 13) === formattedTime.slice(0, 13)) {
+            console.log("matches");
+            presenttime = i;
+            break;
+          }
         }
-        const weathertimetable=[]
-        for (let i = presenttime; i < presenttime+5; i++) {
-          const datatimestamp=timetable[i]
-          // console.log(datatimestamp.slice(0,13))
-          weathertimetable.push(datatimestamp)
-        }
-        console.log(weathertimetable)
-        // dataObject.slice(0, -1).forEach(element => {
-        //   const datatimestamp=element['timestamp']
-        //   if (datatimestamp.slice(0,13)===formattedTime.slice(0,13)){
-        //     console.log("matches")
-        //   }
-        //   // console.log(datatimestamp.slice(0,13)===formattedTime.slice(0,13))
-        // });
-        // console.log(formattedTime.slice(0,13))
 
-        // console.log(dataObject.)
-        setApiData(presenttemp);
+        const weathertimetable = [];
+        if (presenttime !== -1) {
+          for (let i = presenttime; i < Math.min(presenttime + 5, dataObject.length); i++) {
+            weathertimetable.push(dataObject[i]);
+          }
+        }
+        console.log(weathertimetable);
+
+        setWeathertimetable(weathertimetable);
+        setApiData(dataObject[dataObject.length - 1]); // Assuming you want to set the last item as apiData
       } catch (error) {
         console.error('Error fetching API data:', error);
       }
@@ -65,25 +56,40 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          {/* how to add a bootstrap button example */}
-        <Button>TestButton</Button> 
-        {/* ------------------------------- */}
-          Edit <code>src/App.js</code> and save to reload.
+          {/* Example of adding a Bootstrap button */}
+          <Button variant="primary">TestButton</Button> 
         </p>
+        {/* Displaying weathertimetable data in a Bootstrap card */}
+        <Card>
+  <Card.Body>
+    <Card.Title>Weather Timetable</Card.Title>
+    <Card.Text>
+      {weathertimetable !== null ? (
+        weathertimetable.map((entry, index) => (
+          <div key={index}>
+            {/* Display your data properties here */}
+            <p>{entry.time}</p>
+            <p>{entry.temperature} C</p>
+            {/* Add more properties as needed */}
+          </div>
+        ))
+      ) : (
+        <p>Loading weather data...</p>
+      )}
+    </Card.Text>
+  </Card.Body>
+</Card>
         <a
           className="App-link"
           href="https://reactjs.org"
           target="_blank"
           rel="noopener noreferrer"
         >
-          { 'Learn React'}
+          Learn React
         </a>
-        {/* Here our data is being printed in the variable apiData*/}
-        {apiData}
       </header>
     </div>
   );
-  
 }
 
 function formatDateToISO8601() {
