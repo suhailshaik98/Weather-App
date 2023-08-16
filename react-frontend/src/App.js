@@ -36,7 +36,7 @@ function App() {
 
         const weathertimetable = [];
         if (presenttime !== -1) {
-          for (let i = presenttime; i < Math.min(presenttime + 5, dataObject.length); i++) {
+          for (let i = presenttime+1; i < Math.min(presenttime + 6, dataObject.length); i++) {
             weathertimetable.push(dataObject[i]);
           }
         }
@@ -63,7 +63,7 @@ function App() {
         {/* Displaying weathertimetable data in a Bootstrap card */}
         <Card>
   <Card.Body>
-    <Card.Title>Weather Timetable</Card.Title>
+    <Card.Title>Weather right now <p>{apiData}</p></Card.Title>
     <Card.Text>
       {weathertimetable !== null ? (
         weathertimetable.map((entry, index) => (
