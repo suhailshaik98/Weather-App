@@ -16,7 +16,7 @@ function App() {
   useEffect(() => {
     async function fetchApiData() {
       try {
-        const response = await fetch('http://localhost:8000/');
+        const response = await fetch('http://192.168.1.251:8000/');
         const data = await response.text();
         const dataObject = JSON.parse(data);
         console.log(dataObject)
@@ -63,7 +63,7 @@ function App() {
         {/* Displaying weathertimetable data in a Bootstrap card */}
         <Card>
   <Card.Body>
-    <Card.Title>Weather right now <p>{apiData}</p></Card.Title>
+    <Card.Title>Weather right now </Card.Title>
     <Card.Text>
       {weathertimetable !== null ? (
         weathertimetable.map((entry, index) => (
