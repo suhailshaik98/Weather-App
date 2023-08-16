@@ -16,7 +16,7 @@ def convert_utc_to_est(timestamp):
     est_timezone = pytz.timezone("US/Eastern")
     est_time = utc_time.astimezone(est_timezone)
     
-    return est_time
+    return est_time.strftime("%Y-%m-%dT%H:%M:%SZ")
 
 def convertdatafromapi(data):
   maindata=data['data']
