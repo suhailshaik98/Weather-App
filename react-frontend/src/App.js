@@ -19,13 +19,14 @@ function App() {
         const response = await fetch('http://localhost:8000/');
         const data = await response.text();
         const dataObject = JSON.parse(data);
+        console.log(dataObject)
 
-        const formattedTime = formatDateToISO8601(); // Define this function or replace with appropriate time formatting
+        const formattedTime = formatDateToISO8601Local(); // Define this function or replace with appropriate time formatting
 
         let presenttime = -1;
 
         for (let i = 0; i < dataObject.length; i++) {
-          const datatimestamp = dataObject[i]['timestamp'];
+          const datatimestamp = dataObject[i].timestamp;
           if (datatimestamp.slice(0, 13) === formattedTime.slice(0, 13)) {
             console.log("matches");
             presenttime = i;
@@ -92,18 +93,18 @@ function App() {
   );
 }
 
-function formatDateToISO8601() {
+function formatDateToISO8601Local() {
   const currentTime = new Date();
-  const year = currentTime.getUTCFullYear();
-  const month = String(currentTime.getUTCMonth() + 1).padStart(2, '0');
-  const day = String(currentTime.getUTCDate()).padStart(2, '0');
-  const hours = String(currentTime.getUTCHours()).padStart(2, '0');
-  const minutes = String(currentTime.getUTCMinutes()).padStart(2, '0');
-  const seconds = String(currentTime.getUTCSeconds()).padStart(2, '0');
-  
-  return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}Z`;
+  const year = currentTime.getFullYear();
+  const month = String(currentTime.getMonth() + 1).padStart(2, '0');
+  const day = String(currentTime.getDate()).padStart(2, '0');
+  const hours = String(currentTime.getHours()).padStart(2, '0');
+  const minutes = String(currentTime.getMinutes()).padStart(2, '0');
+  const seconds = String(currentTime.getSeconds()).padStart(2, '0');
+
+  return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
 }
 
-const formattedTime = formatDateToISO8601();
+// const formattedTime = formatDateToISO8601();
 // console.log(formattedTime);
 export default App;
