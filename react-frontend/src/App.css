@@ -36,3 +36,16 @@
     transform: rotate(360deg);
   }
 }
+
+.Container {
+  position: relative;
+  width: 300px; /* Set your container width */
+  height: 200px; /* Set your container height */
+}
+
+.Container img {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+ 

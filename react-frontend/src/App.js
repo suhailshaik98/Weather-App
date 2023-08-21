@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
-import Button from 'react-bootstrap/Button'
+import { Card, Container, Row, Col} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 // ---------------------------RESOURCES TO REFER---------------------------------------------------
@@ -26,37 +26,52 @@ function App() {
     fetchApiData();
   }, []);
 
-//   return (
-//     <div className="App min-vh-100 d-flex justify-content-center align-items-center">
-//       <div>
-//         <ThemeSwitcher />
-//       </div>
-//     </div>
-//   );
-// }
+
 
 
 
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          {/* how to add a bootstrap button example */}
-        <Button>TestButton</Button> 
-        {/* ------------------------------- */}
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          { 'Temperature'}
-        </a>
-        {/* Here our data is being printed in the variable apiData*/}
-        {apiData}
+        <Container>
+          <Row>
+            <Col> </Col>
+            <Col>
+        <Card> 
+          <Card.Body>
+            <Card.Title>
+              Temperature
+            </Card.Title>
+            <Card.Text>
+              {apiData}
+            </Card.Text>
+          </Card.Body>
+        </Card>
+            </Col>
+          </Row>
+
+          <Row>
+          <Col> Hello </Col>
+          <Col>    </Col>
+          </Row>
+
+          <Row>
+            <Col> </Col>
+            <Col>
+        <Card> 
+          <Card.Body>
+            <Card.Title>
+              Forecast
+            </Card.Title>
+            <Card.Text>
+              Sample temp
+            </Card.Text>
+          </Card.Body>
+
+        </Card>
+            </Col>
+          </Row>
+        </Container>
       </header>
     </div>
   );
