@@ -26,6 +26,17 @@ function App() {
     fetchApiData();
   }, []);
 
+//   return (
+//     <div className="App min-vh-100 d-flex justify-content-center align-items-center">
+//       <div>
+//         <ThemeSwitcher />
+//       </div>
+//     </div>
+//   );
+// }
+
+
+
   return (
     <div className="App">
       <header className="App-header">
@@ -42,7 +53,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          { 'Learn React'}
+          { 'Temperature'}
         </a>
         {/* Here our data is being printed in the variable apiData*/}
         {apiData}
