@@ -63,7 +63,7 @@ function App() {
         {/* Displaying weathertimetable data in a Bootstrap card */}
         <Card>
   <Card.Body>
-    <Card.Title>Weather right now </Card.Title>
+    <Card.Title>Weather right now {apiData}</Card.Title>
     <Card.Text>
       {weathertimetable !== null ? (
         weathertimetable.map((entry, index) => (
