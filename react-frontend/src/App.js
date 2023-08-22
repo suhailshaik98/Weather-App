@@ -11,7 +11,8 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 function App() {
   const [apiData, setApiData] = useState(null);
-  const [weathertimetable, setWeathertimetable] = useState(null);
+  const [temperaturestring, setWeathertimetable] = useState(null);
+  const [timestring, settime] = useState(null);
 
   useEffect(() => {
     async function fetchApiData() {
@@ -41,8 +42,18 @@ function App() {
           }
         }
         console.log(weathertimetable);
+        let temperaturestring
+        let timestring
+        for (let i = 0; i < weathertimetable.length; i++) {
+          temperaturestring += weathertimetable[i].temperature +" "
+          timestring += weathertimetable[i].time +" "
+        }
+        timestring=timestring.slice(9)
+        temperaturestring=temperaturestring.slice(9)
+        console.log(temperaturestring)
 
-        setWeathertimetable(weathertimetable);
+        setWeathertimetable(temperaturestring);
+        settime(timestring)
         setApiData(dataObject[dataObject.length - 1]); // Assuming you want to set the last item as apiData
       } catch (error) {
         console.error('Error fetching API data:', error);
@@ -52,9 +63,14 @@ function App() {
     fetchApiData();
   }, []);
 
+  // function getDynamicText(weathertimetable) {
+  //   let temperaturestring
+  //   for (let i=0;i<weathertimetable.length;i++){
+  //     temperaturestring=weathertimetable[i].temperature+" "
+  //   }
+  //   return temperaturestring;
 
-
-
+  // }
 
   return (
     <div className="App">
@@ -87,10 +103,10 @@ function App() {
         <Card> 
           <Card.Body>
             <Card.Title>
-              Forecast
+              {timestring}
             </Card.Title>
             <Card.Text>
-              Sample temp
+            {temperaturestring}
             </Card.Text>
           </Card.Body>
 
