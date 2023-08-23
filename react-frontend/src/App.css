@@ -13,6 +13,30 @@
   }
 }
 
+.background {
+  background-color: green;
+  height: 150px;
+  padding: 10px;
+}
+
+.card-glass {
+  margin-right: auto;
+  margin-left: auto;
+  box-shadow: 0 15px 25px rgba(129, 124, 124, 0.2);
+  backdrop-filter: blur(14px);
+  background-color: rgba(255, 255, 255, 0.2);
+  text-align: center;
+}
+
+video {
+  object-fit: cover;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -37,11 +61,7 @@
   }
 }
 
-.Container {
-  position: relative;
-  width: 300px; /* Set your container width */
-  height: 200px; /* Set your container height */
-}
+
 
 .Container img {
   position: absolute;
