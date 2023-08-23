@@ -19,7 +19,7 @@ function App() {
   useEffect(() => {
     async function fetchApiData() {
       try {
-        const response = await fetch('http://192.168.1.251:8000/');
+        const response = await fetch('http://localhost:8000/');
         const data = await response.text();
         const dataObject = JSON.parse(data);
         console.log(dataObject)
