@@ -19,7 +19,9 @@ function App() {
   useEffect(() => {
     async function fetchApiData() {
       try {
-        const response = await fetch('http://localhost:8000/');
+        const ip_address = await axios.get('https://api64.ipify.org?format=json');
+        const publicIP = ip_address.data.ip;
+        const response = await fetch('http://'+publicIP+':8000/');
         const data = await response.text();
         const dataObject = JSON.parse(data);
         console.log(dataObject)
