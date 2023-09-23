@@ -22,7 +22,7 @@ function App() {
         const ip_address = await fetch('https://api.ipify.org?format=json');
         const ip_address_data = await ip_address.json();
         const publicIP = ip_address_data.ip;
-        const response = await fetch('http://'+publicIP+':8000/');
+        const response = await fetch('http://45.33.125.109:8000/');
         const data = await response.text();
         const dataObject = JSON.parse(data);
         console.log(dataObject)
