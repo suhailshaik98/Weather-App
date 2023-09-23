@@ -1,0 +1,23 @@
+version: '3'
+services:
+  redis:
+    image: redis:latest
+    container_name: my-redis
+    ports:
+      - "6380:6379"
+    networks:
+      - mynetwork
+
+  custom-container:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: weatherwebsite
+    ports:
+      - "8000:8000"
+      - "3000:3000"
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
