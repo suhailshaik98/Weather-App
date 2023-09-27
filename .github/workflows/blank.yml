@@ -34,6 +34,8 @@ jobs:
         run: echo "${{secrets.SSH_AUTHORIZED_KEYS}}" > key.pem && chmod 400 key.pem
       - name: Echo the server ip address
         run: echo ${{ vars.SERVER_IP }}
+      - name: Updating and installing unzip. Removing old files
+        run: ssh -i key.pem -o StrictHostKeyChecking=no ubuntu@${{ vars.SERVER_IP }} "sudo apt-get update && sudo apt-get install -y unzip && rm -rf cicd.zip remoteserverinstall.sh docker-compose.yml weatherapp.tar"     
       - name: Copying the docker file to server
         run: scp -i key.pem -o StrictHostKeyChecking=no weatherapp.tar ubuntu@${{ vars.SERVER_IP }}:/home/ubuntu
 
@@ -51,8 +53,6 @@ jobs:
         run: echo "${{secrets.SSH_AUTHORIZED_KEYS}}" > key.pem && chmod 400 key.pem
       - name: Echo the server ip address
         run: echo ${{ vars.SERVER_IP }}
-      - name: Test Transfer file to ec2-instance
-        run: ssh -i key.pem -o StrictHostKeyChecking=no ubuntu@${{ vars.SERVER_IP }} "sudo apt-get update && sudo apt-get install -y unzip && rm -rf cicd.zip remoteserverinstall.sh docker-compose.yml weatherapp.tar"     
       # Runs a set of commands using the runners shell
       - name: Checking files
         run: |
