@@ -32,8 +32,12 @@ jobs:
         run: echo "${{secrets.SSH_AUTHORIZED_KEYS}}" > key.pem
       - name: Echo the server ip address
         run: echo ${{ vars.SERVER_IP }}
-      # - name: Test Transfer file to ec2-instance
-      #   run: ssh -i key.pem ubuntu@$server_ip
+      - name: Test Transfer file to ec2-instance
+        run: |
+             ssh -i key.pem ubuntu@$server_ip
+             sudo apt-get update
+             sudo apt-get install unzip
+             exit
       # # Runs a set of commands using the runners shell
       # - name: Checking files
       #   run: |
