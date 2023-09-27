@@ -10,7 +10,7 @@ import sample from './bgvideo.mp4';
 // Refer to this link https://react-bootstrap.netlify.app/docs/components/accordion
 // Watch youtube video https://www.youtube.com/watch?v=8pKjULHzs0s
 // -------------------------------------------------------------------------------------
-
+const url="placeholder"
 function App() {
   const [apiData, setApiData] = useState(null);
   const [temperaturestring, setWeathertimetable] = useState(null);
@@ -22,7 +22,7 @@ function App() {
         const ip_address = await fetch('https://api.ipify.org?format=json');
         const ip_address_data = await ip_address.json();
         const publicIP = ip_address_data.ip;
-        const response = await fetch('http://45.33.125.109:8000/');
+        const response = await fetch('http://'+url+':8000/');
         const data = await response.text();
         const dataObject = JSON.parse(data);
         console.log(dataObject)
