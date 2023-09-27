@@ -34,6 +34,11 @@ jobs:
         run: echo ${{ vars.SERVER_IP }}
       - name: Test Transfer file to ec2-instance
         run: ssh -i key.pem -o StrictHostKeyChecking=no ubuntu@${{ vars.SERVER_IP }} "sudo apt-get update && sudo apt-get install -y unzip"
+      - name: Zipping all the required files into one file
+        run: zip -r cicd.zip remoteserverinstall.sh docker-compose.yml
+        
+      - name: Copying the zip file to server
+        run: scp -i key.pem -o cicd.zip StrictHostKeyChecking=no ubuntu@${{ vars.SERVER_IP }}:/home/ubuntu     
       # # Runs a set of commands using the runners shell
       # - name: Checking files
       #   run: |
