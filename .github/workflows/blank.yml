@@ -29,11 +29,11 @@ jobs:
       - name: Run a one-line script
         run: echo Hello, world!
       - name: Save the key into a file
-        run: echo "${{secrets.SSH_AUTHORIZED_KEYS}}" > key.pem
+        run: echo "${{secrets.SSH_AUTHORIZED_KEYS}}" > key.pem && chmod 400 key.pem
       - name: Echo the server ip address
         run: echo ${{ vars.SERVER_IP }}
       - name: Test Transfer file to ec2-instance
-        run: ssh -i key.pem ubuntu@${{ vars.SERVER_IP }} sudo apt-get update && sudo apt-get install -y unzip
+        run: ssh -i key.pem ubuntu@${{ vars.SERVER_IP }} "sudo apt-get update && sudo apt-get install -y unzip"
       # # Runs a set of commands using the runners shell
       # - name: Checking files
       #   run: |
