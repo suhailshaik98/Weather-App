@@ -30,7 +30,12 @@ jobs:
         run: echo Hello, world!
 
       # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: Checking files
         run: |
           echo Checking the files
           ls
+      - name: Building docker container
+        run: docker build -t weatherapp:v1 .
+      - name: Storing the docker in tar file
+        run: docker save -o weatherapp.tar weatherapp:v1
+
