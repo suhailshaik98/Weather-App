@@ -38,7 +38,7 @@ jobs:
         run: zip -r cicd.zip remoteserverinstall.sh docker-compose.yml
         
       - name: Copying the zip file to server
-        run: scp -i key.pem -o cicd.zip StrictHostKeyChecking=no ubuntu@${{ vars.SERVER_IP }}:/home/ubuntu     
+        run: scp -i key.pem -o StrictHostKeyChecking=no cicd.zip ubuntu@${{ vars.SERVER_IP }}:/home/ubuntu     
       # # Runs a set of commands using the runners shell
       # - name: Checking files
       #   run: |
