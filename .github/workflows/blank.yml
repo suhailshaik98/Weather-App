@@ -34,8 +34,8 @@ jobs:
         run: echo "${{secrets.SSH_AUTHORIZED_KEYS}}" > key.pem && chmod 400 key.pem
       - name: Echo the server ip address
         run: echo ${{ vars.SERVER_IP }}
-      - name: Copying the zip file to server
-        run: scp -i key.pem -o StrictHostKeyChecking=no cicd.zip ubuntu@${{ vars.SERVER_IP }}:/home/ubuntu
+      - name: Copying the docker file to server
+        run: scp -i key.pem -o StrictHostKeyChecking=no weatherapp.tar ubuntu@${{ vars.SERVER_IP }}:/home/ubuntu
 
   deploy:
     # The type of runner that the job will run on
