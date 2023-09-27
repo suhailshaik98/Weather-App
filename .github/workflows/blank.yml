@@ -26,23 +26,16 @@ jobs:
       - uses: actions/checkout@v3
 
       # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-      - name: Save the key into a file
-        run: echo "${{secrets.SSH_AUTHORIZED_KEYS}}" > key.pem && chmod 400 key.pem
-      - name: Echo the server ip address
-        run: echo ${{ vars.SERVER_IP }}
-      - name: Test Transfer file to ec2-instance
-        run: ssh -i key.pem -o StrictHostKeyChecking=no ubuntu@${{ vars.SERVER_IP }} "sudo apt-get update && sudo apt-get install -y unzip && rm -rf remoteserverinstall.sh docker-compose.yml weatherapp.tar"     
-      # Runs a set of commands using the runners shell
-      - name: Checking files
-        run: |
-          echo Checking the files
-          ls
       - name: Building docker container
         run: docker build -t weatherapp:v1 .
       - name: Storing the docker in tar file
         run: docker save -o weatherapp.tar weatherapp:v1 && chmod 555 weatherapp.tar
+      - name: Save the key into a file
+        run: echo "${{secrets.SSH_AUTHORIZED_KEYS}}" > key.pem && chmod 400 key.pem
+      - name: Echo the server ip address
+        run: echo ${{ vars.SERVER_IP }}
+      - name: Copying the zip file to server
+        run: scp -i key.pem -o StrictHostKeyChecking=no cicd.zip ubuntu@${{ vars.SERVER_IP }}:/home/ubuntu
 
   deploy:
     # The type of runner that the job will run on
@@ -51,8 +44,22 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - uses: actions/checkout@v3
+      - name: Run a one-line script
+        run: echo Hello, world!
+      - name: Save the key into a file
+        run: echo "${{secrets.SSH_AUTHORIZED_KEYS}}" > key.pem && chmod 400 key.pem
+      - name: Echo the server ip address
+        run: echo ${{ vars.SERVER_IP }}
+      - name: Test Transfer file to ec2-instance
+        run: ssh -i key.pem -o StrictHostKeyChecking=no ubuntu@${{ vars.SERVER_IP }} "sudo apt-get update && sudo apt-get install -y unzip && rm -rf cicd.zip remoteserverinstall.sh docker-compose.yml weatherapp.tar"     
+      # Runs a set of commands using the runners shell
+      - name: Checking files
+        run: |
+          echo Checking the files
+          ls
       - name: Zipping all the required files into one file
-        run: zip -r cicd.zip remoteserverinstall.sh dockercontainer/docker-compose.yml weatherapp.tar
+        run: zip -r cicd.zip remoteserverinstall.sh dockercontainer/docker-compose.yml
         
       - name: Copying the zip file to server
         run: scp -i key.pem -o StrictHostKeyChecking=no cicd.zip ubuntu@${{ vars.SERVER_IP }}:/home/ubuntu
