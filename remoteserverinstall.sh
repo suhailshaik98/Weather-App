@@ -6,4 +6,4 @@ echo "Stopping any instances of the docker"
 mv ~/dockercontainer/docker-compose.yml ~/docker-compose.yml
 sudo docker-compose down
 echo "Making the docker compose up"
-sudo docker-compose up
+sudo docker-compose up -d
