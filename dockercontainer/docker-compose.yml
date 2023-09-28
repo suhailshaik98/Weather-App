@@ -3,12 +3,13 @@ services:
   redis:
     image: redis:latest
     container_name: my-redis
+    ports:
+      - "6380:6379"
     networks:
       - mynetwork
 
   weatherapp:
-    image: weatherapp:v1  # Replace with the actual image name
-    container_name: weatherwebsite
+    image: weatherapp:v1
     ports:
       - "8000:8000"
       - "3000:3000"
@@ -17,4 +18,3 @@ services:
 
 networks:
   mynetwork:
-    driver: bridge
