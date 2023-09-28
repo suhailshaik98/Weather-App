@@ -66,5 +66,5 @@ jobs:
       - name: Copying the zip file to server
         run: scp -i key.pem -o StrictHostKeyChecking=no cicd.zip ubuntu@${{ vars.SERVER_IP }}:/home/ubuntu
       - name: Unzip and execute bash script
-        run: ssh -i key.pem -o StrictHostKeyChecking=no ubuntu@${{ vars.SERVER_IP }} "unzip cicd.zip && chmod +x remoteserverinstall.sh && sudo ./remoteserverinstall.sh"     
+        run: ssh -i key.pem -o StrictHostKeyChecking=no ubuntu@${{ vars.SERVER_IP }} "unzip cicd.zip && chmod +x remoteserverinstall.sh && ./remoteserverinstall.sh"     
 
