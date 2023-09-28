@@ -1,0 +1,70 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      # Runs a single command using the runners shell
+      - name: Building docker container
+        run: docker build -t weatherapp:v1 .
+      - name: Storing the docker in tar file
+        run: docker save -o weatherapp.tar weatherapp:v1 && chmod 555 weatherapp.tar
+      - name: Save the key into a file
+        run: echo "${{secrets.SSH_AUTHORIZED_KEYS}}" > key.pem && chmod 400 key.pem
+      - name: Echo the server ip address
+        run: echo ${{ vars.SERVER_IP }}
+      - name: Updating and installing unzip. Removing old files
+        run: ssh -i key.pem -o StrictHostKeyChecking=no ubuntu@${{ vars.SERVER_IP }} "sudo apt-get update && sudo apt-get install -y unzip"     
+      - name: Updating and installing unzip. Removing old files
+        run: ssh -i key.pem -o StrictHostKeyChecking=no ubuntu@${{ vars.SERVER_IP }} "rm -rf cicd.zip  dockercontainer  remoteserverinstall.sh  weatherapp.tar"
+      - name: Copying the docker file to server
+        run: scp -i key.pem -o StrictHostKeyChecking=no weatherapp.tar ubuntu@${{ vars.SERVER_IP }}:/home/ubuntu
+
+  deploy:
+    # The type of runner that the job will run on
+    needs: build
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run a one-line script
+        run: echo Hello, world!
+      - name: Save the key into a file
+        run: echo "${{secrets.SSH_AUTHORIZED_KEYS}}" > key.pem && chmod 400 key.pem
+      - name: Echo the server ip address
+        run: echo ${{ vars.SERVER_IP }}
+      # Runs a set of commands using the runners shell
+      - name: Checking files
+        run: |
+          echo Checking the files
+          ls
+      - name: Zipping all the required files into one file
+        run: zip -r cicd.zip remoteserverinstall.sh dockercontainer/docker-compose.yml
+        
+      - name: Copying the zip file to server
+        run: scp -i key.pem -o StrictHostKeyChecking=no cicd.zip ubuntu@${{ vars.SERVER_IP }}:/home/ubuntu
+      - name: Unzip and execute bash script
+        run: ssh -i key.pem -o StrictHostKeyChecking=no ubuntu@${{ vars.SERVER_IP }} "unzip cicd.zip && chmod +x remoteserverinstall.sh && ./remoteserverinstall.sh"     
+
