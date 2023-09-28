@@ -8,7 +8,7 @@ import pytz
 
 
 def home(request):
-    redis_server = redis.Redis(host='my-redis', port=6379, db=0)
+    redis_server = redis.Redis(host='localhost', port=6380, db=0)
     get_api_data=redis_server.get('api_data')
     if get_api_data is None or oldtimechecker(get_api_data) is False:
         resultdict = app.weatherapi()
