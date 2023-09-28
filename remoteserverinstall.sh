@@ -4,6 +4,6 @@ sudo apt  install -y docker-compose
 sudo docker load -i weatherapp.tar
 echo "Stopping any instances of the docker"
 mv ~/dockercontainer/docker-compose.yml ~/docker-compose.yml
-sudo docker-compose down
+sudo docker-compose down --remove-orphans
 echo "Making the docker compose up"
 sudo docker-compose up -d
